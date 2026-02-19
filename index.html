@@ -1,1 +1,786 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AT&T Fiber • AFO — Expert Path Checklist</title>
+  <meta name="theme-color" content="#0b1620" />
+  <style>
+    :root{
+  --installBlue:#2f7dd1;
+  --repairGreen:#6dbf45;
 
+      --bg:#07121a;
+      --panel:#0c1c27;
+      --panel2:#0a1822;
+      --stroke:rgba(255,255,255,.10);
+      --text:#e9eef4;
+      --muted:rgba(233,238,244,.70);
+      --muted2:rgba(233,238,244,.55);
+      --blue:#1aa7e1;      /* AT&T Fiber accent */
+      --green:#79c142;     /* Repair / CODE accent */
+      --danger:#ff4d5e;
+      --pill:rgba(255,255,255,.08);
+      --shadow: 0 14px 40px rgba(0,0,0,.45);
+      --radius:22px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:
+        radial-gradient(1200px 500px at 30% -10%, rgba(26,167,225,.22), transparent 65%),
+        radial-gradient(900px 500px at 90% 10%, rgba(121,193,66,.10), transparent 60%),
+        radial-gradient(900px 700px at 50% 120%, rgba(255,255,255,.05), transparent 55%),
+        var(--bg);
+      color:var(--text);
+    }
+    .wrap{max-width:920px;margin:0 auto;padding:22px 14px 40px}
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border:1px solid var(--stroke);
+      border-radius:var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .hero{
+      padding:18px 18px 16px;
+      background:
+        radial-gradient(800px 280px at 20% 0%, rgba(26,167,225,.22), transparent 60%),
+        radial-gradient(700px 260px at 90% 10%, rgba(255,255,255,.10), transparent 62%),
+        rgba(12,28,39,.35);
+      border-bottom:1px solid var(--stroke);
+    }
+    .topline{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .pill{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:8px 12px;border-radius:999px;
+      background:var(--pill);
+      border:1px solid var(--stroke);
+      font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+      color:rgba(233,238,244,.80);
+      white-space:nowrap;
+    }
+    .dot{width:9px;height:9px;border-radius:99px;background:var(--blue);box-shadow:0 0 0 3px rgba(26,167,225,.18)}
+    .pill.green .dot{background:var(--green);box-shadow:0 0 0 3px rgba(121,193,66,.18)}
+    .titleRow{display:flex;align-items:center;gap:14px;margin-top:14px}
+    .logo{
+      width:44px;height:44px;border-radius:14px;
+      display:grid;place-items:center;
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--stroke);
+      flex:0 0 auto;
+    }
+    .logo svg{opacity:.95}
+    h1{font-size:34px;line-height:1.08;margin:0}
+    .sub{margin-top:6px;color:var(--muted);max-width:62ch}
+    .sub strong{color:rgba(233,238,244,.86)}
+    .controls{
+      padding:14px 18px 16px;
+      display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+      border-bottom:1px solid var(--stroke);
+      background:rgba(12,28,39,.22);
+    }
+    .seg{
+      display:inline-flex;
+      padding:6px;
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--stroke);
+      gap:6px;
+    }
+    .seg button{
+      appearance:none;border:none;cursor:pointer;
+      padding:10px 16px;border-radius:999px;
+      background:transparent;color:rgba(233,238,244,.78);
+      font-weight:700;letter-spacing:.02em;
+      transition:all .15s ease;
+    }
+    .seg button[aria-pressed="true"]{
+      background:rgba(255,255,255,.10);
+      color:var(--text);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.10);
+    }
+    .wip{
+      display:inline-flex;align-items:center;gap:10px;
+      padding:10px 14px;border-radius:999px;
+      background:rgba(255,255,255,.04);
+      border:1px dashed rgba(255,255,255,.18);
+      color:rgba(233,238,244,.55);
+      font-weight:700;
+      user-select:none;
+    }
+    .wip .dot{background:rgba(233,238,244,.25);box-shadow:none}
+    .modePill{
+      display:inline-flex;align-items:center;gap:10px;
+      padding:10px 14px;border-radius:999px;
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--stroke);
+      color:rgba(233,238,244,.75);
+      font-weight:700;
+    }
+    .modePill .dot{background:var(--blue)}
+    .modePill.repair .dot{background:var(--green)}
+    .stats{
+      padding:14px 18px 0;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    .stat{
+      background:rgba(255,255,255,.03);
+      border:1px solid var(--stroke);
+      border-radius:18px;
+      padding:12px 14px;
+      display:flex;justify-content:space-between;align-items:flex-end;
+    }
+    .stat .lbl{color:var(--muted2);font-size:13px}
+    .stat .val{font-size:26px;font-weight:900;letter-spacing:.02em}
+    .actions{
+      padding:12px 18px 18px;
+      display:flex;gap:10px;flex-wrap:wrap;
+    }
+    .btn{
+      appearance:none;border:none;cursor:pointer;
+      padding:12px 16px;border-radius:16px;
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--stroke);
+      color:rgba(233,238,244,.90);
+      font-weight:800;
+    }
+    .btn.danger{
+      border-color:rgba(255,77,94,.35);
+      background:rgba(255,77,94,.08);
+      color:rgba(255,220,224,.95);
+    }
+    .btn:active{transform:translateY(1px)}
+    .section{
+      margin-top:14px;
+      border-top:1px solid var(--stroke);
+    }
+    .section:first-of-type{border-top:none}
+    details{
+      border-top:1px solid rgba(255,255,255,.06);
+    }
+    details[open]{background:rgba(255,255,255,.01)}
+    summary{
+      list-style:none;
+      padding:16px 18px;
+      display:flex;align-items:center;gap:12px;
+      cursor:pointer;
+    }
+    summary::-webkit-details-marker{display:none}
+    .chev{
+      width:28px;height:28px;border-radius:10px;
+      display:grid;place-items:center;
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--stroke);
+      flex:0 0 auto;
+    }
+    .badgeWrap{width:40px;height:40px;flex:0 0 auto;display:grid;place-items:center}
+    .sumText{flex:1 1 auto;min-width:0}
+    .kicker{color:var(--muted2);font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px}
+    .name{font-size:18px;font-weight:900;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .statusPill{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:10px 12px;border-radius:999px;
+      background:rgba(255,77,94,.10);
+      border:1px solid rgba(255,77,94,.30);
+      color:rgba(255,220,224,.98);
+      font-weight:900;
+      flex:0 0 auto;
+      white-space:nowrap;
+    }
+    .statusPill.done{border-color:rgba(121,193,66,.55); background:rgba(121,193,66,.12);}
+    .statusPill.done span:last-child{color:rgba(225,255,235,.98);}
+    .statusDot.done{background:var(--green); box-shadow:0 0 0 3px rgba(121,193,66,.18);}
+
+    .statusDot{width:10px;height:10px;border-radius:99px;background:var(--danger);box-shadow:0 0 0 4px rgba(255,77,94,.14)}
+    .body{padding:0 18px 16px}
+    .hint{color:var(--muted2);margin:0 0 12px}
+    .items{display:grid;gap:10px}
+    .item{
+      display:flex;gap:12px;align-items:flex-start;
+      background:rgba(0,0,0,.14);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:18px;
+      padding:12px 12px;
+    }
+    input[type="checkbox"]{
+      width:22px;height:22px;margin-top:2px;
+      accent-color: var(--blue);
+      cursor:pointer;
+      flex:0 0 auto;
+    }
+    .repairMode input[type="checkbox"]{accent-color: var(--green);}
+    .itemText{min-width:0}
+    .itemTitle{font-weight:800}
+    .itemDetail{color:var(--muted2);font-size:13px;margin-top:3px}
+    .codeBlock{
+      margin:18px;
+      border-radius:22px;
+      border:1px solid var(--stroke);
+      background:rgba(255,255,255,.03);
+      overflow:hidden;
+    }
+    .codeHead{
+      padding:14px 16px;
+      display:flex;justify-content:space-between;align-items:center;gap:12px;
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .codeHead .t{font-weight:900;letter-spacing:.02em}
+    .codeHead .s{color:var(--muted2)}
+    .codeGrid{
+      padding:14px 16px 16px;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    .codeCard{
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.06);
+      background:rgba(0,0,0,.14);
+      padding:14px;
+      display:flex;gap:12px;align-items:center;
+    }
+    .codeIcon{
+      width:44px;height:44px;border-radius:14px;
+      display:grid;place-items:center;
+      border:2px solid var(--green);
+      background:#0b1214;
+      color:#fff;font-weight:1000;
+      letter-spacing:.04em;
+      flex:0 0 auto;
+    }
+    .codeCard .big{font-weight:950}
+    .codeCard .small{color:var(--muted2);font-size:13px;margin-top:3px}
+    .footer{
+      margin-top:16px;
+      padding:14px 16px;
+      color:rgba(233,238,244,.55);
+      font-size:12px;
+      text-align:center;
+    }
+    .mono{font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;}
+    @media (max-width:720px){
+      h1{font-size:28px}
+      .stats{grid-template-columns:1fr}
+      .codeGrid{grid-template-columns:1fr}
+    }
+  
+/* Scoping / Cleaning / True Test callouts */
+.refBox{
+  margin-top:12px;
+  padding:12px 12px;
+  border:1px solid rgba(74, 226, 142, .38);
+  background:rgba(10, 28, 20, .35);
+  border-radius:16px;
+}
+.refBox h4{
+  margin:0 0 8px 0;
+  font-size:14px;
+  letter-spacing:.2px;
+}
+.refBox ul{margin:0 0 0 18px; padding:0;}
+.refBox li{margin:6px 0; color:rgba(255,255,255,.88); line-height:1.25;}
+.refBox .refNote{margin-top:8px; color:rgba(255,255,255,.72); font-size:12px;}
+.refTag{
+  display:inline-block;
+  padding:2px 8px;
+  border-radius:999px;
+  font-size:11px;
+  letter-spacing:.25px;
+  border:1px solid rgba(74, 226, 142, .45);
+  background:rgba(74, 226, 142, .12);
+  color:rgba(255,255,255,.92);
+  margin-right:6px;
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card" id="app">
+      <div class="hero">
+        <div class="topline">
+          <span class="pill"><span class="dot" style="background:rgba(233,238,244,.25);box-shadow:none"></span> AFO</span>
+          <span class="pill"><span class="dot" style="background:rgba(233,238,244,.25);box-shadow:none"></span> <span class="mono" id="versionPill">BETA • FIELD TEST</span></span>
+        </div>
+
+        <div class="titleRow">
+          <div class="logo" aria-hidden="true" title="AT&T">
+            <!-- AT&T-style globe (simplified) -->
+            <svg width="28" height="28" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs>
+                <clipPath id="gclip"><circle cx="32" cy="32" r="22"/></clipPath>
+              </defs>
+              <g clip-path="url(#gclip)">
+                <rect x="0" y="0" width="64" height="64" fill="transparent"/>
+                <!-- horizontal bands -->
+                <rect x="8" y="16" width="48" height="6" rx="3" fill="rgba(233,238,244,.92)"/>
+                <rect x="6" y="24" width="52" height="6" rx="3" fill="rgba(233,238,244,.92)"/>
+                <rect x="5" y="32" width="54" height="6" rx="3" fill="rgba(233,238,244,.92)"/>
+                <rect x="6" y="40" width="52" height="6" rx="3" fill="rgba(233,238,244,.92)"/>
+                <rect x="8" y="48" width="48" height="6" rx="3" fill="rgba(233,238,244,.92)"/>
+                <!-- top cap -->
+                <ellipse cx="32" cy="14" rx="16" ry="6" fill="rgba(233,238,244,.92)"/>
+              </g>
+              <circle cx="32" cy="32" r="22" fill="none" stroke="rgba(233,238,244,.92)" stroke-width="2" opacity=".18"/>
+            </svg>
+          </div>
+          <div>
+            <h1>AT&amp;T Fiber Expert Path</h1>
+            <div class="sub"><strong>AFO</strong> — Expert Path Checklist. Tap checkboxes as you complete steps. Progress saves automatically on this device.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="seg" role="group" aria-label="Mode">
+          <button id="btnInstall" aria-pressed="true" type="button">Install</button>
+          <button id="btnRepair" aria-pressed="false" type="button">Repair</button>
+        </div>
+        <div class="wip" title="Work in progress (not active yet)">
+          <span class="dot"></span>
+          Wi‑Fi Extenders (WIP)
+        </div>
+        <div class="modePill" id="modePill"><span class="dot"></span> <span id="modeText">Mode: Install</span></div>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="lbl">Sections done</div>
+          <div class="val"><span id="secDone">0</span> / <span id="secTotal">0</span></div>
+        </div>
+        <div class="stat">
+          <div class="lbl">Items done</div>
+          <div class="val"><span id="itemDone">0</span> / <span id="itemTotal">0</span></div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn" id="expandAll" type="button">Expand all</button>
+        <button class="btn" id="collapseAll" type="button">Collapse all</button>
+        <button class="btn danger" id="reset" type="button">Reset progress</button>
+        <button class="btn" id="completeClear" type="button" title="Mark all items complete then clear (useful at job close)">Complete &amp; Clear</button>
+      </div>
+
+      <div class="codeBlock" aria-label="CODE AFO Values">
+        <div class="codeHead">
+          <div class="t">CODE (AFO Values)</div>
+          <div class="s">Quick reminder for every visit.</div>
+        </div>
+        <div class="codeGrid">
+          <div class="codeCard">
+            <div class="codeIcon">C</div>
+            <div>
+              <div class="big">Care for Customers and Each Other</div>
+              <div class="small">Lead with respect &amp; safety.</div>
+            </div>
+          </div>
+          <div class="codeCard">
+            <div class="codeIcon">O</div>
+            <div>
+              <div class="big">Own It</div>
+              <div class="small">Take responsibility end‑to‑end.</div>
+            </div>
+          </div>
+          <div class="codeCard">
+            <div class="codeIcon">D</div>
+            <div>
+              <div class="big">Deliver with Expertise</div>
+              <div class="small">Do it right, document it right.</div>
+            </div>
+          </div>
+          <div class="codeCard">
+            <div class="codeIcon">E</div>
+            <div>
+              <div class="big">Exceed Expectations</div>
+              <div class="small">Communicate + validate + educate.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="sections"></div>
+
+      <div class="footer">
+        <div><span class="mono" id="buildStamp">Build: v1.1 • Internal field checklist</span></div>
+        <div style="margin-top:6px">Tip: Add to Home Screen for an “app-like” experience.</div>
+      </div>
+    </div>
+  </div>
+
+<script>
+(() => {
+  "use strict";
+
+  /* ---------- Version / Build ---------- */
+  const BUILD = "v1.0";
+  document.getElementById("buildStamp").textContent = `Build: ${BUILD} • Internal field checklist`;
+
+  /* ---------- Badge SVG ---------- */
+  function badgeSVG(n, mode){
+    const isRepair = mode === "repair";
+    const accent = isRepair ? getComputedStyle(document.documentElement).getPropertyValue("--green").trim() : getComputedStyle(document.documentElement).getPropertyValue("--blue").trim();
+    const label = isRepair ? "FIBER REPAIR" : "FIBER INSTALL";
+    // small badge with readable label (green per request)
+    const labelColor = isRepair ? getComputedStyle(document.documentElement).getPropertyValue("--blue").trim() : getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
+    return `
+      <svg width="40" height="40" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M32 6 C44 12 54 22 58 34 C55 50 42 58 32 60 C22 58 9 50 6 34 C10 22 20 12 32 6 Z" fill="#ffffff" opacity="0.92"/>
+        <path d="M32 10 C42 15 50 23 54 34 C51 47 40 53 32 55 C24 53 13 47 10 34 C14 23 22 15 32 10 Z" fill="${accent}"/>
+        <circle cx="32" cy="28" r="14" fill="rgba(0,0,0,.12)"/>
+        <text x="32" y="33" text-anchor="middle" font-size="18" font-weight="900" fill="#ffffff" font-family="system-ui,Segoe UI,Roboto,Arial">${n}</text>
+        <path d="M16 42 Q32 50 48 42" fill="none" stroke="rgba(0,0,0,.12)" stroke-width="10" stroke-linecap="round"/>
+        <text x="32" y="54" text-anchor="middle" font-size="9.4" font-weight="900" fill="${labelColor}" font-family="system-ui,Segoe UI,Roboto,Arial">${label}</text>
+      </svg>
+    `;
+  }
+
+  /* ---------- Data ---------- */
+  // NOTE: Avoid property names like "sub" to prevent collisions with String.prototype.sub in some render paths.
+  const INSTALL = [
+    { id:"precall", marker:null, title:"Pre-Call", kicker:"", items:[
+      { id:"precall_1", text:"Perform Pre-Call within 15 min of dispatching by calling the CBR.", detail:"If no answer, leave a voicemail and send a text message." }
+    ]},
+    { id:"m1", marker:1, title:"Greet & Verify", kicker:"Marker 1", items:[
+      { id:"m1_1", text:"Greet the customer.", detail:"Confirm availability for duration of install and confirm SHM app is downloaded." }
+    ]},
+    { id:"m2", marker:2, title:"Qualify to Terminal", kicker:"Marker 2", items:[
+      { id:"m2_1", text:"At PFP turn Optimeter ON.", detail:"Select appropriate scope link in Atlas." },
+      { id:"m2_2", text:"Select direction Splitter → ONT.", detail:"Set location to Splitter." },
+      { id:"m2_3", text:"Scope shutter jumper, APN and Port.", detail:"Perform scoping without leaving Viavi/EXFO app." },
+      { id:"m2_4", text:"Perform True Test from assigned APN.", detail:"Document results." },
+      { id:"m2_5", text:"Confirm scoping and True Tests uploaded to LSBBT.", detail:"Verify upload completed successfully." },
+      { id:"m2_6", text:"At Prem, confirm good light at assigned CFST port.", detail:"Proceed only when light is verified." }
+    ],
+      ref:{
+        tags:["SCOPE","CLEAN","TRUE TEST"],
+        title:"Scoping / Cleaning / True Test quick reference (Install)",
+        bullets:[
+          "True Test #1 after PFP scoping: Launch Cable → PFP Jumper → PFP Bulkhead",
+          "Clean connector faces before scope + before True Test (Launch Cable, PFP Jumper, Bulkhead)",
+          "Confirm scope images + True Test upload in LSBBT before leaving PFP area"
+        ],
+        note:"Goal: no missed scoping points. Clean first, test second, upload/verify, then move on."
+      }},
+    { id:"m3", marker:3, title:"Survey Customer & Premises", kicker:"Marker 3", items:[
+      { id:"m3_1", text:"Bring RG inside prem.", detail:"Discuss and confirm best RG location with the customer." },
+      { id:"m3_2", text:"Perform Wi‑Fi assessment in Atlas.", detail:"Tests → “+” → select BAN → Wi‑Fi assessment. Connect phone with RG, add rooms, set RG location, perform assessment, upload results." },
+      { id:"m3_3", text:"Discuss Wi‑Fi extenders if needed.", detail:"Confirm preferred installation approach." }
+    ]},
+    { id:"m4", marker:4, title:"Extend to Home", kicker:"Marker 4", items:[
+      { id:"m4_1", text:"At Slack turn Optimeter ON.", detail:"Connect to phone via Wi‑Fi." },
+      { id:"m4_2", text:"Select direction ONT → Splitter and select NID location.", detail:"Confirm correct location selection." },
+      { id:"m4_3", text:"Scope shutter jumper, drop and fiber IW.", detail:"Document results." },
+      { id:"m4_4", text:"Perform True Test at end of your drop.", detail:"Save results." },
+      { id:"m4_5", text:"Upload and verify scopes + True Test in LSBBT.", detail:"Confirm visibility and accuracy." }
+    ],
+      ref:{
+        tags:["SCOPE","CLEAN","TRUE TEST"],
+        title:"Scoping / Cleaning / True Test quick reference (Outside)",
+        bullets:[
+          "True Test #2 after Outside scoping: Launch Cable → End of Drop → End of Home Run",
+          "Clean connector faces at End of Drop and End of Home Run before scope + before True Test",
+          "Verify scope + True Test uploaded in LSBBT before leaving outside work area"
+        ],
+        note:"If you change jumpers or re-mate a connection, clean again."
+      }},
+    { id:"m5", marker:5, title:"Connect to Gateway", kicker:"Marker 5", items:[
+      { id:"m5_1", text:"Run fiber IW to RG location and install fiber jack.", detail:"Confirm clean termination and labeling." },
+      { id:"m5_2", text:"At fiber jack location turn Optimeter ON.", detail:"Reconnect to app via Wi‑Fi." },
+      { id:"m5_3", text:"Select location Fiber Jack and scope launch cable, IW, SFP and both ends of shutter jumper.", detail:"Document and verify." },
+      { id:"m5_4", text:"Perform True Test from shutter jumper.", detail:"Verify scopes and True Test in LSBBT." },
+      { id:"m5_5", text:"Activate RG and verify customer is registered.", detail:"Confirm service is up." }
+    ],
+      ref:{
+        tags:["SCOPE","CLEAN","TRUE TEST"],
+        title:"Scoping / Cleaning / True Test quick reference (Inside)",
+        bullets:[
+          "True Test #3 after Inside scoping: Launch Cable → End of Home Run → Both Ends of Jumper → SFP",
+          "Clean every connector face before scope and before True Test (Home Run, Jumper both ends, SFP)",
+          "Confirm scope + True Test uploaded and validated in LSBBT before closing the job"
+        ],
+        note:"This is the most common miss—don’t leave without verifying uploads."
+      }},
+    { id:"m6", marker:6, title:"Finalize Experience", kicker:"Marker 6", items:[
+      { id:"m6_1", text:"Add extenders if requested and go over the SHM app.", detail:"Wi‑Fi extender workflow is currently WIP (coming soon)." },
+      { id:"m6_2", text:"Demonstrate Active Armor.", detail:"Navigate to My WiFi, WiFi customization, Speed Test, enable Push Notifications and Virtual Assistant." }
+    ]},
+    { id:"m7", marker:7, title:"Verify, Thank & Close", kicker:"Marker 7", items:[
+      { id:"m7_1", text:"Answer any customer questions and go over installation.", detail:"Confirm customer understands basics." },
+      { id:"m7_2", text:"Thank customer for choosing AT&T.", detail:"Provide Make it Matter gift (if applicable)." },
+      { id:"m7_3", text:"Finalize testing and close job at Prem.", detail:"Confirm everything documented." }
+    ]},
+    { id:"scope_ref", marker:null, title:"Install Scoping & True Test (Reference)", kicker:"Reference", items:[
+      { id:"sref_1", text:"Scope checkpoints (typical): PFP jumper → PFP bulkhead → Launch cable → End of Drop → End of Home Run → SFP / both ends jumper.", detail:"Use Atlas scope workflow and verify uploads." },
+      { id:"sref_2", text:"True Test checkpoints (typical): PFP / assigned APN, End of Drop (outside), Inside Home after SFP/jumper.", detail:"Follow local guidance if counts differ by market/job type." }
+    ]}
+  ];
+
+  const REPAIR = [
+    { id:"r1", marker:1, title:"Dispatch, Preview & Contact", kicker:"Marker 1", items:[
+      { id:"r1_1", text:"Gather virtual diagnostics.", detail:"Determine customer's availability." }
+    ]},
+    { id:"r2", marker:2, title:"Greet & Understand", kicker:"Marker 2", items:[
+      { id:"r2_1", text:"Listen to the customer.", detail:"Understand the issues and determine forward path." }
+    ]},
+    { id:"r3", marker:3, title:"Isolate & Resolve", kicker:"Marker 3", items:[
+      { id:"r3_1", text:"NETWORK — Conduct & analyze pertinent tests.", detail:"Determine and correct fiber network trouble." },
+      { id:"r3_2", text:"HOME — Conduct & analyze pertinent tests.", detail:"Determine trouble locations in the home." }
+    ]},
+    { id:"r4", marker:4, title:"Certify Products & Services", kicker:"Marker 4", items:[
+      { id:"r4_1", text:"Certify products & services.", detail:"Ensure standards are met." }
+    ]},
+    { id:"r5", marker:5, title:"Verify, Thank & Close", kicker:"Marker 5", items:[
+      { id:"r5_1", text:"Restore customer satisfaction.", detail:"Confirm resolution and reinforce brand loyalty." }
+    ]}
+  ];
+
+  /* ---------- State ---------- */
+  const LS_KEY = "afo_expert_path_state_v1";
+  const defaultState = { mode:"install", open:{}, checks:{} };
+
+  function loadState(){
+    try{
+      const raw = localStorage.getItem(LS_KEY);
+      if(!raw) return structuredClone(defaultState);
+      const parsed = JSON.parse(raw);
+      // basic shape repair
+      if(!parsed || typeof parsed !== "object") return structuredClone(defaultState);
+      parsed.mode = (parsed.mode === "repair") ? "repair" : "install";
+      parsed.open = parsed.open && typeof parsed.open === "object" ? parsed.open : {};
+      parsed.checks = parsed.checks && typeof parsed.checks === "object" ? parsed.checks : {};
+      return parsed;
+    }catch{
+      return structuredClone(defaultState);
+    }
+  }
+  function saveState(){ localStorage.setItem(LS_KEY, JSON.stringify(state)); }
+
+  let state = loadState();
+
+  /* ---------- Helpers ---------- */
+  const $ = (id) => document.getElementById(id);
+
+  function currentData(){ return state.mode === "repair" ? REPAIR : INSTALL; }
+
+  function allItemIds(data){
+    const ids = [];
+    data.forEach(sec => (sec.items||[]).forEach(it => ids.push(it.id)));
+    return ids;
+  }
+
+  function calcStats(){
+    const data = currentData();
+    const secTotal = data.length;
+    let secDone = 0;
+    let itemTotal = 0;
+    let itemDone = 0;
+
+    data.forEach(sec => {
+      const items = sec.items || [];
+      if(items.length === 0){ return; }
+      itemTotal += items.length;
+      let thisDone = 0;
+      items.forEach(it => {
+        if(state.checks[it.id]){ thisDone += 1; itemDone += 1; }
+      });
+      if(thisDone === items.length) secDone += 1;
+    });
+
+    $("secDone").textContent = String(secDone);
+    $("secTotal").textContent = String(secTotal);
+    $("itemDone").textContent = String(itemDone);
+    $("itemTotal").textContent = String(itemTotal);
+  }
+
+  function updateModeUI(){
+    const isRepair = state.mode === "repair";
+    $("btnInstall").setAttribute("aria-pressed", String(!isRepair));
+    $("btnRepair").setAttribute("aria-pressed", String(isRepair));
+    $("modeText").textContent = `Mode: ${isRepair ? "Repair" : "Install"}`;
+    $("modePill").classList.toggle("repair", isRepair);
+
+    // update checkbox accent by toggling class on root list
+    const sections = $("sections");
+    sections.classList.toggle("repairMode", isRepair);
+  }
+
+  function render(){
+    updateModeUI();
+
+    const data = currentData();
+    const host = $("sections");
+    host.innerHTML = "";
+
+    data.forEach(sec => {
+      const did = sec.id;
+      const open = !!state.open[did];
+      const title = sec.title || "";
+      const kicker = sec.kicker || "";
+      const marker = sec.marker;
+      const items = Array.isArray(sec.items) ? sec.items : [];
+
+      const doneCount = items.filter(it => !!state.checks[it.id]).length;
+      const isDone = items.length > 0 && doneCount === items.length;
+
+      const badge = (marker !== null && marker !== undefined)
+        ? `<div class="badgeWrap">${badgeSVG(marker, state.mode)}</div>`
+        : `<div class="badgeWrap"></div>`;
+
+      const detailEls = items.map(it => {
+        const checked = !!state.checks[it.id];
+        const safeText = escapeHTML(it.text || "");
+        const safeDetail = escapeHTML(it.detail || "");
+        return `
+          <label class="item">
+            <input type="checkbox" data-item="${it.id}" ${checked ? "checked" : ""} />
+            <div class="itemText">
+              <div class="itemTitle">${safeText}</div>
+              ${safeDetail ? `<div class="itemDetail">${safeDetail}</div>` : ""}
+            </div>
+          </label>
+        `;
+      }).join("");
+
+      const el = document.createElement("details");
+      el.open = open;
+      el.dataset.section = did;
+
+      el.innerHTML = `
+        <summary>
+          <div class="chev" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 10l5 5 5-5" stroke="rgba(233,238,244,.92)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          ${badge}
+          <div class="sumText">
+            ${kicker ? `<div class="kicker">${escapeHTML(kicker)}</div>` : `<div class="kicker">${marker ? "Marker "+marker : ""}</div>`}
+            <div class="name">${escapeHTML(title)}</div>
+          </div>
+          <div class="statusPill ${isDone ? "done" : ""}">
+            <span class="statusDot ${isDone ? "done" : ""}"></span>
+            <span>${isDone ? "DONE" : "NOT DONE"}</span>
+          </div>
+        </summary>
+        <div class="body">
+          <p class="hint">Check off items as you complete them.</p>
+          ${renderRef(sec.ref)}
+          <div class="items">${detailEls}</div>
+        </div>
+      `;
+
+      host.appendChild(el);
+    });
+
+    // wire events
+    host.querySelectorAll("details").forEach(d => {
+      d.addEventListener("toggle", () => {
+        state.open[d.dataset.section] = d.open;
+        saveState();
+        calcStats();
+      }, { passive:true });
+    });
+
+    host.querySelectorAll('input[type="checkbox"][data-item]').forEach(cb => {
+      cb.addEventListener("change", () => {
+        const id = cb.getAttribute("data-item");
+        state.checks[id] = cb.checked;
+        saveState();
+        // update status pill for that section without full re-render
+        const det = cb.closest("details");
+        if(det){
+          const secId = det.dataset.section;
+          const dataNow = currentData().find(s => s.id === secId);
+          if(dataNow){
+            const itemsNow = dataNow.items || [];
+            const done = itemsNow.filter(it => !!state.checks[it.id]).length;
+            const isDone2 = itemsNow.length > 0 && done === itemsNow.length;
+            const pillText = det.querySelector(".statusPill span:last-child");
+            const pillWrap = det.querySelector(".statusPill");
+            const dot = det.querySelector(".statusDot");
+            if(pillText) pillText.textContent = isDone2 ? "DONE" : "NOT DONE";
+            if(pillWrap) pillWrap.classList.toggle("done", isDone2);
+            if(dot) dot.classList.toggle("done", isDone2);
+          }
+        }
+        calcStats();
+      }, { passive:true });
+    });
+
+    calcStats();
+  }
+
+  function escapeHTML(s){
+    return String(s).replace(/[&<>"']/g, (c) => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+    }[c]));
+  }
+
+  
+  function renderRef(ref){
+    if(!ref) return "";
+    const title = escapeHTML(ref.title || "Scoping / Cleaning / True Test");
+    const bullets = Array.isArray(ref.bullets) ? ref.bullets : [];
+    const tags = Array.isArray(ref.tags) ? ref.tags : [];
+    const note = ref.note ? escapeHTML(ref.note) : "";
+    const tagsHTML = tags.length
+      ? `<div style="margin-bottom:8px;">${tags.map(t=>`<span class="refTag">${escapeHTML(t)}</span>`).join("")}</div>`
+      : "";
+    const listHTML = bullets.length
+      ? `<ul>${bullets.map(b=>`<li>${escapeHTML(b)}</li>`).join("")}</ul>`
+      : "";
+    const noteHTML = note ? `<div class="refNote">${note}</div>` : "";
+    return `<div class="refBox">${tagsHTML}<h4>${title}</h4>${listHTML}${noteHTML}</div>`;
+  }
+
+/* ---------- Actions ---------- */
+  $("btnInstall").addEventListener("click", () => {
+    if(state.mode === "install") return;
+    state.mode = "install";
+    saveState();
+    render();
+  });
+  $("btnRepair").addEventListener("click", () => {
+    if(state.mode === "repair") return;
+    state.mode = "repair";
+    saveState();
+    render();
+  });
+
+  $("expandAll").addEventListener("click", () => {
+    currentData().forEach(sec => state.open[sec.id] = true);
+    saveState(); render();
+  });
+  $("collapseAll").addEventListener("click", () => {
+    currentData().forEach(sec => state.open[sec.id] = false);
+    saveState(); render();
+  });
+
+  $("reset").addEventListener("click", () => {
+    // wipe checkmarks only for current mode items to avoid surprising the other mode
+    const data = currentData();
+    allItemIds(data).forEach(id => delete state.checks[id]);
+    saveState(); render();
+  });
+
+  $("completeClear").addEventListener("click", () => {
+    const data = currentData();
+    allItemIds(data).forEach(id => state.checks[id] = true);
+    // then clear after 300ms so user sees it complete
+    saveState(); render();
+    setTimeout(() => {
+      allItemIds(data).forEach(id => delete state.checks[id]);
+      saveState(); render();
+    }, 300);
+  });
+
+  /* ---------- Initial render ---------- */
+  render();
+
+})();
+</script>
+</body>
+</html>
